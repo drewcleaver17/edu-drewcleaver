@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workplace Clarity Quiz — edu.drewcleaver.com</title>
+  <meta name="description" content="A free, private educational quiz to help workers find language for what feels off at work. Educational only. Not legal advice.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://edu.drewcleaver.com/workplace-clarity/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Workplace Clarity Quiz">
+  <meta property="og:description" content="Know what to ask. Know what to save. Know when to get backup. A private educational quiz for workers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://edu.drewcleaver.com/workplace-clarity/">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand">edu.drewcleaver.com</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============== INTRO SCREEN ============== -->
+    <section class="screen screen--intro" id="screen-intro">
+      <div class="container container--narrow">
+        <h1 class="hero-title">Something feels off at work.<br><span class="hero-title__accent">Let's give it language.</span></h1>
+
+        <p class="hero-sub">A private quiz to help you understand pay clarity, role confusion, unpaid work, retaliation fear, and whether you may need backup.</p>
+
+        <p class="hero-meta"><strong>Educational only. Not legal advice.</strong></p>
+
+        <div class="card card--why">
+          <h2>What this is</h2>
+          <ul class="checklist">
+            <li>About 25 quick questions, plus optional notes</li>
+            <li>Takes 5–10 minutes</li>
+            <li>Your answers stay in your browser. No account. No tracking pixel. No server.</li>
+            <li>You leave with a plain-English snapshot, a documentation checklist, and a copy/paste AI prompt for deeper private thinking</li>
+          </ul>
+
+          <h2>What this isn't</h2>
+          <ul class="checklist checklist--negative">
+            <li>Legal advice</li>
+            <li>A way to file a claim or report your employer</li>
+            <li>A push to sue, quit, or unionize</li>
+            <li>Anti-employer. Most employers want to do right by their people. This tool exists for the moments when something feels unclear.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn--primary btn--large" id="start-quiz">
+          Start the Workplace Clarity Quiz
+        </button>
+
+        <p class="resume-line" id="resume-line" hidden>
+          <button class="link-btn" id="resume-quiz">Resume where you left off</button>
+          <span> · </span>
+          <button class="link-btn link-btn--quiet" id="clear-saved">Clear my saved answers</button>
+        </p>
+
+        <details class="disclosure">
+          <summary>How this works under the hood</summary>
+          <p>This is a single static web page. When you answer questions, the math runs in your browser — nothing is sent anywhere. If you reload the page by accident, your in-progress answers are saved on this device only (in <code>localStorage</code>), and you can clear them anytime with the button above.</p>
+          <p>The source is open: anyone can read it to verify what it does and doesn't do.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============== QUIZ SCREEN ============== -->
+    <section class="screen screen--quiz" id="screen-quiz" hidden>
+      <div class="container container--narrow">
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress-bar__fill" id="progress-fill"></div>
+        </div>
+        <p class="progress-text" id="progress-text">Section 1 of 7</p>
+
+        <div id="quiz-content"><!-- sections render here --></div>
+
+        <div class="quiz-nav">
+          <button class="btn btn--ghost" id="quiz-prev" hidden>← Back</button>
+          <button class="btn btn--primary" id="quiz-next">Next →</button>
+        </div>
+
+        <p class="footer-note">
+          Answers are stored only in your browser.
+          <button class="link-btn link-btn--quiet" id="clear-mid-quiz">Clear &amp; restart</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============== RESULTS SCREEN ============== -->
+    <section class="screen screen--results" id="screen-results" hidden>
+      <div class="container container--narrow">
+        <h1 class="results-title">Your Workplace Clarity Snapshot</h1>
+        <p class="results-disclaimer"><strong>This is educational, not legal advice.</strong> This tool can't determine your legal status. It can help you find language and decide whether to get qualified help.</p>
+
+        <section class="results-section" id="results-summary">
+          <h2>The plain-English version</h2>
+          <div id="summary-text"></div>
+        </section>
+
+        <section class="results-section">
+          <h2>Your scores</h2>
+          <p class="muted">A "low" score on the clarity dimensions, or a "high" score on the concern dimensions, may be worth paying attention to — but no single score means anything definitive on its own.</p>
+          <div class="scores" id="scores-grid"></div>
+        </section>
+
+        <section class="results-section" id="results-signals">
+          <h2>Your strongest signals</h2>
+          <div id="signals-list"></div>
+        </section>
+
+        <section class="results-section">
+          <h2>What to document</h2>
+          <p class="muted">No matter what comes next — even if it's nothing — having calm, factual records puts you in a stronger position.</p>
+          <ul class="doc-checklist" id="doc-checklist"></ul>
+        </section>
+
+        <section class="results-section">
+          <h2>Calm next steps</h2>
+          <ol class="next-steps" id="next-steps-list"></ol>
+        </section>
+
+        <section class="results-section results-section--highlight">
+          <h2>Copy/paste AI prompt</h2>
+          <p>Take this with you. Paste it into ChatGPT, Claude, Gemini, or any AI assistant — privately, on your own device — to keep thinking through your situation.</p>
+
+          <div class="prompt-actions">
+            <button class="btn btn--primary" id="copy-prompt">Copy prompt to clipboard</button>
+            <button class="btn btn--ghost" id="print-results">Print / Save as PDF</button>
+          </div>
+
+          <textarea id="ai-prompt" class="prompt-box" rows="20" readonly aria-label="Generated AI prompt"></textarea>
+          <p class="muted small">Tip: don't paste this into a work device, work account, or work network. Use a personal device, a personal AI account, and a network you control.</p>
+        </section>
+
+        <section class="results-section results-section--quiet">
+          <h2>If you want to talk to a real person</h2>
+          <ul class="resource-list">
+            <li><strong>A qualified employment attorney.</strong> Many offer free initial consultations. State bar associations have referral services.</li>
+            <li><strong>Your state labor agency or the U.S. Department of Labor Wage and Hour Division.</strong> They handle wage and hour complaints.</li>
+            <li><strong>The National Labor Relations Board (NLRB).</strong> Handles many issues around discussing wages, working conditions, and collective action in private-sector workplaces.</li>
+            <li><strong>A local worker center.</strong> Often free, often industry-specific, and often more accessible than formal agencies.</li>
+            <li><strong>A union organizer.</strong> Even if you're not in a union, organizers in your industry often offer free conversations.</li>
+          </ul>
+          <p class="muted small">This list isn't an endorsement of any specific organization or path. It's a starting point for finding qualified help.</p>
+        </section>
+
+        <div class="results-footer">
+          <button class="btn btn--ghost" id="restart-quiz">Take the quiz again</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container container--narrow">
+      <p>Educational tool by Drew Cleaver. Not legal advice.</p>
+      <p class="small">If you are in immediate danger, contact emergency services. If you need legal advice, contact a qualified attorney or appropriate labor agency.</p>
+      <p class="small">Your answers are processed in your browser. Do not enter sensitive details you do not want stored on your own device.</p>
+    </div>
+  </footer>
+
+  <!-- Live region for status messages -->
+  <div id="live-region" class="sr-only" aria-live="polite"></div>
+
+  <script src="quiz-data.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>
